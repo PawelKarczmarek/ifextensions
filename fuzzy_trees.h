@@ -140,7 +140,6 @@ void fuzzy_tree::insert(double lower_bounds[NMAX], double upper_bounds[NMAX], fu
 				max_strength = elbow_strength[i];
 				kmax = i;
 			}
-		cout << kmax << endl;
 		
 		root->cluster_count = kmax;
 		root->cluster_centers = new double[kmax + 1];

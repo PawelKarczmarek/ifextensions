@@ -65,7 +65,6 @@ void file_multi_dim::read()
 	string line;
 	while (!input_file.eof())
 	{
-		cout << i << endl;
 		getline(input_file, line);
 		if (line.length() < 5)
 			return;
@@ -107,7 +106,7 @@ vector<string> file_multi_dim::split(string s, string delimiter) {
 
 void file_multi_dim::data_portion(double ** t)
 {
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		int index = rand() % rows;
 		for (int j = 0; j < columns; j++)
@@ -139,8 +138,8 @@ void isolation_forest_for_multi_dim(string _file)
 {
 	cout << "ISOLATION FOREST";
 	file_multi_dim *data_from_multi_dim = new file_multi_dim(_file);
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 	double * results = new double[data_from_multi_dim->rows];
 	for (int i = 0; i < data_from_multi_dim->rows; i++)
@@ -152,7 +151,7 @@ void isolation_forest_for_multi_dim(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		binary_tree **db = new binary_tree*[100];
-		db[i] = new binary_tree(128, data_from_multi_dim->columns, tab);
+		db[i] = new binary_tree(256, data_from_multi_dim->columns, tab);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -164,7 +163,7 @@ void isolation_forest_for_multi_dim(string _file)
 	}
 	for (int i = 0; i < data_from_multi_dim->rows; i++)
 	{
-		results[i] = pow(2.0, -results[i] / c_function(128));
+		results[i] = pow(2.0, -results[i] / c_function(256));
 	}
 
 	ofstream output_file(data_from_multi_dim->file_name + "_results_if.txt");
@@ -181,7 +180,7 @@ void isolation_forest_for_multi_dim(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
@@ -194,8 +193,8 @@ void n_ary_isolation_forest_for_multi_dim(string _file)
 	double how_many_n_ary = 3;
 	file_multi_dim *data_from_multi_dim = new file_multi_dim(_file);
 
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 
 	double * results = new double[data_from_multi_dim->rows];
@@ -210,7 +209,7 @@ void n_ary_isolation_forest_for_multi_dim(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		n_ary_tree **db = new n_ary_tree*[100];
-		db[i] = new n_ary_tree(128, data_from_multi_dim->columns, tab, how_many_n_ary);
+		db[i] = new n_ary_tree(256, data_from_multi_dim->columns, tab, how_many_n_ary);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -222,7 +221,7 @@ void n_ary_isolation_forest_for_multi_dim(string _file)
 	}
 	for (int i = 0; i < data_from_multi_dim->rows; i++)
 	{
-		results[i] = pow(how_many_n_ary, -results[i] / c_function(128, how_many_n_ary));
+		results[i] = pow(how_many_n_ary, -results[i] / c_function(256, how_many_n_ary));
 	}
 
 	ofstream output_file(data_from_multi_dim->file_name + "_results_nif.txt");
@@ -239,7 +238,7 @@ void n_ary_isolation_forest_for_multi_dim(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
@@ -251,8 +250,8 @@ void fuzzy_i_forest_for_multi_dim(string _file)
 	cout << "K-MEANS-BASED ISOLATION FOREST";
 	file_multi_dim *data_from_multi_dim = new file_multi_dim(_file);
 
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 
 	double * results = new double[data_from_multi_dim->rows];
@@ -267,7 +266,7 @@ void fuzzy_i_forest_for_multi_dim(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		fuzzy_tree **db = new fuzzy_tree*[100];
-		db[i] = new fuzzy_tree(128, data_from_multi_dim->columns, tab);
+		db[i] = new fuzzy_tree(256, data_from_multi_dim->columns, tab);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -292,7 +291,7 @@ void fuzzy_i_forest_for_multi_dim(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
@@ -304,8 +303,8 @@ void fuzzy_c_forest_for_multi_dim(string _file)
 	cout << "FUZZY C-MEANS-BASED ISOLATION FOREST";
 	file_multi_dim *data_from_multi_dim = new file_multi_dim(_file);
 
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 
 	double * results = new double[data_from_multi_dim->rows];
@@ -320,7 +319,7 @@ void fuzzy_c_forest_for_multi_dim(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		fuzzy_c_tree **db = new fuzzy_c_tree*[100];
-		db[i] = new fuzzy_c_tree(128, data_from_multi_dim->columns, tab);
+		db[i] = new fuzzy_c_tree(256, data_from_multi_dim->columns, tab);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -345,7 +344,7 @@ void fuzzy_c_forest_for_multi_dim(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
@@ -359,8 +358,8 @@ void memb_i_forest_for_multi_dim(string _file)
 	double *low_bounds = new double[data_from_multi_dim->columns];
 	double *upp_bounds = new double[data_from_multi_dim->columns];
 	data_from_multi_dim->return_lower_and_upper_bounds(low_bounds, upp_bounds);
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 
 	double * results = new double[data_from_multi_dim->rows];
@@ -375,7 +374,7 @@ void memb_i_forest_for_multi_dim(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		binary_tree_with_center **db = new binary_tree_with_center*[100];
-		db[i] = new binary_tree_with_center(128, data_from_multi_dim->columns, tab, low_bounds, upp_bounds);
+		db[i] = new binary_tree_with_center(256, data_from_multi_dim->columns, tab, low_bounds, upp_bounds);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -400,7 +399,7 @@ void memb_i_forest_for_multi_dim(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
@@ -412,8 +411,8 @@ void fuzzy_c2_forest_for_multi_dim(string _file)
 	cout << "FUZZY C-MEANS-BASED ISOLATION FOREST - 2 NODES";
 	file_multi_dim *data_from_multi_dim = new file_multi_dim(_file);
 
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 
 	double * results = new double[data_from_multi_dim->rows];
@@ -428,7 +427,7 @@ void fuzzy_c2_forest_for_multi_dim(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		fuzzy_c_tree_2_nodes **db = new fuzzy_c_tree_2_nodes*[100];
-		db[i] = new fuzzy_c_tree_2_nodes(128, data_from_multi_dim->columns, tab);
+		db[i] = new fuzzy_c_tree_2_nodes(256, data_from_multi_dim->columns, tab);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -453,7 +452,7 @@ void fuzzy_c2_forest_for_multi_dim(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
@@ -465,8 +464,8 @@ void fuzzy_c2_forest_for_multi_dim_variant_with_distance(string _file)
 	cout << "FUZZY C-MEANS-BASED ISOLATION FOREST - 2 NODES AND DISTANCE";
 	file_multi_dim *data_from_multi_dim = new file_multi_dim(_file);
 
-	double ** tab = new double *[128];
-	for (int i = 0; i < 128; i++)
+	double ** tab = new double *[256];
+	for (int i = 0; i < 256; i++)
 		tab[i] = new double[data_from_multi_dim->columns];
 
 	double * results = new double[data_from_multi_dim->rows];
@@ -481,7 +480,7 @@ void fuzzy_c2_forest_for_multi_dim_variant_with_distance(string _file)
 		cout << "TREE NUMBER " << i << endl;
 		data_from_multi_dim->data_portion(tab);
 		fuzzy_c_tree_2_nodes **db = new fuzzy_c_tree_2_nodes*[100];
-		db[i] = new fuzzy_c_tree_2_nodes(128, data_from_multi_dim->columns, tab);
+		db[i] = new fuzzy_c_tree_2_nodes(256, data_from_multi_dim->columns, tab);
 		db[i]->build_tree();
 		for (int j = 0; j < data_from_multi_dim->rows; j++)
 		{
@@ -506,7 +505,7 @@ void fuzzy_c2_forest_for_multi_dim_variant_with_distance(string _file)
 	output_file << endl << endl << "min:" << min << endl << "max:" << max;
 	output_file.close();
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < 256; i++)
 		delete[]tab[i];
 	delete[]tab;
 
